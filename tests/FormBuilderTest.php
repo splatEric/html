@@ -204,6 +204,17 @@ class FormBuilderTest extends PHPUnit_Framework_TestCase {
     $this->assertEquals('<input name="date" type="date" value="' . \Carbon\Carbon::now()->format('Y-m-d') . '">', $form1);
   }
 
+  public function testFormDateFormatting()
+  {
+    $date =  \Carbon\Carbon::now();
+      $form1 = $this->formBuilder->date('foo', $date);
+      $this->formBuilder->setDateFormat('d m Y');
+      $form2 = $this->formBuilder->date('foo', $date);
+
+      $this->assertEquals('<input name="foo" type="date" value="' . $date->format('Y-m-d') . '">', $form1);
+      $this->assertEquals('<input name="foo" type="date" value="' . $date->format('d m Y') . '">', $form2);
+
+  }
 
   public function testFormFile()
   {

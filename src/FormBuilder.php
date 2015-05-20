@@ -72,6 +72,12 @@ class FormBuilder {
 	 */
 	protected $skipValueTypes = array('file', 'password', 'checkbox', 'radio');
 
+    /**
+     * The formatting that should be appled to a DateTime object in date fields
+     * @var string
+     */
+    protected $dateFormat = "Y-m-d";
+
 	/**
 	 * Create a new form builder instance.
 	 *
@@ -325,11 +331,21 @@ class FormBuilder {
         $value = $this->getValueAttribute($name, $value);
 		if ($value instanceof DateTime)
 		{
-			$value = $value->format('Y-m-d');
+			$value = $value->format($this->dateFormat);
 		}
 
 		return $this->input('date', $name, $value, $options);
 	}
+
+    /**
+     * Set the formatting for DateTime objects in date fields
+     *
+     * @param $format
+     */
+    public function setDateFormat($format)
+    {
+        $this->dateFormat = $format;
+    }
 
 	/**
 	 * Create a url input field.
@@ -917,7 +933,7 @@ class FormBuilder {
 
 		if ( ! is_null($this->old($name)))
 		{
-			return $this->old($name);
+            return $this->old($name);
 		}
 
 		if ( ! is_null($value)) return $value;
